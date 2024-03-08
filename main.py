@@ -18,9 +18,13 @@ def main() -> None:
             if int(choice) == 5:
                 break
             elif int(choice) == 4:
+                # Run all inputs by a function to check for valid inputs
+                # Calculate everything
+                # Print the results
+                # Ask if they want to calculate another thing
                 pass
             elif int(choice) == 3:
-                pass
+                precision = change_precision(precision)
             elif int(choice) == 2:
                 pass
             elif int(choice) == 1:
@@ -59,6 +63,10 @@ def print_options(cur_first: datetime = None, cur_second: datetime = None, cur_p
     string += f"5. Cancel\n"
 
     print(string)
+
+
+def change_precision(old_precision: str) -> str:
+    pass
 
 
 # 1. First time/date
