@@ -2,17 +2,44 @@ import calculation
 from datetime import datetime
 
 def main() -> None:
+    # Setting things up
+    first_datetime = None
+    second_datetime = None
+    precision = None
     pre_run()
-    
+
+    # Main loop 
+    while True:
+        print_options(first_datetime, second_datetime, precision)
+        choice = input("> ")
+        try:
+            # ERROR: ValueError: "invalid literal for int() with base 10" 
+            # Happens with any float I type
+            if int(choice) == 5:
+                break
+            elif int(choice) == 4:
+                pass
+            elif int(choice) == 3:
+                pass
+            elif int(choice) == 2:
+                pass
+            elif int(choice) == 1:
+                pass
+            else:
+                print("Invalid input: pick one of the list items.")
+        except TypeError:
+            print("Invalid input: type a number.")
 
 
 def pre_run() -> None:
     """A disclaimer before starting the program."""
-    print("The output can get long, so I would suggest expanding the output terminal.\n")
+    print("The output can get long, so I would suggest expanding the output terminal if you need to.\n")
     input("Press enter when you're ready to begin.")
+    print()
 
 
 def print_options(cur_first: datetime = None, cur_second: datetime = None, cur_precision: str = None) -> None:
+    """Prints the options for controlling the program."""
     if isinstance(cur_first, datetime):
         format_first = cur_first.strftime("%b %d %Y, %I:%M:%S %p")
     else:
@@ -23,7 +50,9 @@ def print_options(cur_first: datetime = None, cur_second: datetime = None, cur_p
     else:
         format_second = cur_second
     
-    string = f"1. Start Date ({format_first})\n"
+    string = "\nWhat would you like to edit? Type the number of the list item you want to choose.\n"
+    string += "Make sure to set everything before confirming.\n\n"
+    string += f"1. Start Date ({format_first})\n"
     string += f"2. End Date ({format_second})\n"
     string += f"3. Precision ({cur_precision})\n"
     string += f"4. Confirm\n"
@@ -40,6 +69,6 @@ def print_options(cur_first: datetime = None, cur_second: datetime = None, cur_p
     
 
 if __name__ == '__main__':
-    date1 = datetime(2024, 2, 29, 12, 13, 14, 567890)
-    date2 = datetime(2000, 1, 1, 0, 0, 0, 0)
-    print_options(date2, date1, "Month")
+    # print_options()
+    main()
+    pass
