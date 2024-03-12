@@ -66,15 +66,16 @@ def print_options(cur_first: datetime = None, cur_second: datetime = None, cur_p
 
 
 def change_precision(old_precision: str) -> str:
+    # 1. Years
+    # 2. Months
+    # 3. Weeks
+    # 4. Days
+    # 5. Hours
+    # 6. Minutes
+    # 7. Seconds
+    # 8. Cancel
     pass
 
-
-# 1. First time/date
-# 2. Second time/date
-# 3. Precision (Y/Mo/W/D/H/Mi/S)
-# 4. Confirm
-# 5. Cancel
-    
 
 if __name__ == '__main__':
     # print_options()
