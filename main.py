@@ -22,7 +22,7 @@ def main() -> None:
                 # Calculate everything
                 # Print the results
                 # Ask if they want to calculate another thing
-                pass
+                pass    
             elif int(choice) == 3:
                 precision = change_precision(precision)
             elif int(choice) == 2:
@@ -31,8 +31,10 @@ def main() -> None:
                 pass
             else:
                 print("Invalid input: pick one of the list items.")
-        except TypeError:
-            print("Invalid input: type a number.")
+        except ValueError:
+            print("Invalid input: type a whole number.")
+    
+    print("Thank you for using this program!")
 
 
 def pre_run() -> None:
@@ -66,15 +68,42 @@ def print_options(cur_first: datetime = None, cur_second: datetime = None, cur_p
 
 
 def change_precision(old_precision: str) -> str:
-    # 1. Years
-    # 2. Months
-    # 3. Weeks
-    # 4. Days
-    # 5. Hours
-    # 6. Minutes
-    # 7. Seconds
-    # 8. Cancel
-    pass
+    while True:
+        string = "\nprecision.selector.dialogue\n"
+        string += "Type the number of the option that you would like to select.\n\n"
+        string += "1. Years\n"
+        string += "2. Months\n"
+        string += "3. Weeks\n"
+        string += "4. Days\n"
+        string += "5. Hours\n"
+        string += "6. Minutes\n"
+        string += "7. Seconds\n"
+        string += "8. Cancel\n"
+        print(string)
+
+        choice = input("> ")
+
+        try:
+            if int(choice) == 1:
+                return "years"
+            elif int(choice) == 2:
+                return "months"
+            elif int(choice) == 3:
+                return "weeks"
+            elif int(choice) == 4:
+                return "days"
+            elif int(choice) == 5:
+                return "hours"
+            elif int(choice) == 6:
+                return "minutes"
+            elif int(choice) == 7:
+                return "seconds"
+            elif int(choice) == 8:
+                return old_precision
+            else:
+                print("Invalid input: pick one of the list items.")
+        except ValueError:
+            print("Invalid input: type a whole number.")
 
 
 if __name__ == '__main__':
