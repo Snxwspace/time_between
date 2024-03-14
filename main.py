@@ -16,7 +16,7 @@ def main() -> None:
             # ERROR: ValueError: "invalid literal for int() with base 10" 
             # Happens with any float I type
             if int(choice) == 5:
-                break
+                pass
             elif int(choice) == 4:
                 # Run all inputs by a function to check for valid inputs
                 # Calculate everything
@@ -26,9 +26,9 @@ def main() -> None:
             elif int(choice) == 3:
                 precision = change_precision(precision)
             elif int(choice) == 2:
-                pass
+                second_datetime = calculation.change_datetime(second_datetime)
             elif int(choice) == 1:
-                pass
+                first_datetime = calculation.change_datetime(first_datetime)
             else:
                 print("Invalid input: pick one of the list items.")
         except ValueError:
