@@ -84,29 +84,65 @@ def change_precision(old_precision: str) -> str:
         choice = input("> ")
 
         try:
+            string = "Would you like to change the precision to "
             if int(choice) == 1:
-                return "years"
+                new_precision = "years"
+                string += f"\'{new_precision}\'? y/n\n"
+                if ask_yes_or_no(string):
+                    return new_precision
             elif int(choice) == 2:
-                return "months"
+                new_precision = "months"
+                string += f"\'{new_precision}\'? y/n\n"
+                if ask_yes_or_no(string):
+                    return new_precision
             elif int(choice) == 3:
-                return "weeks"
+                new_precision = "weeks"
+                string += f"\'{new_precision}\'? y/n\n"
+                if ask_yes_or_no(string):
+                    return new_precision
             elif int(choice) == 4:
-                return "days"
+                new_precision = "days"
+                string += f"\'{new_precision}\'? y/n\n"
+                if ask_yes_or_no(string):
+                    return new_precision
             elif int(choice) == 5:
-                return "hours"
+                new_precision = "hours"
+                string += f"\'{new_precision}\'? y/n\n"
+                if ask_yes_or_no(string):
+                    return new_precision
             elif int(choice) == 6:
-                return "minutes"
+                new_precision = "minutes"
+                string += f"\'{new_precision}\'? y/n\n"
+                if ask_yes_or_no(string):
+                    return new_precision
             elif int(choice) == 7:
-                return "seconds"
+                new_precision = "seconds"
+                string += f"\'{new_precision}\'? y/n\n"
+                if ask_yes_or_no(string):
+                    return new_precision
             elif int(choice) == 8:
-                return old_precision
+                new_precision = old_precision
+                string = "Would you like to cancel this operation? y/n\n"
+                if ask_yes_or_no(string):
+                    return new_precision
             else:
                 print("Invalid input: pick one of the list items.")
         except ValueError:
             print("Invalid input: type a whole number.")
 
 
+def ask_yes_or_no(question: str) -> bool:
+    while True:
+        print(question)
+        choice = input("> ")
+        if choice.lower() == 'y':
+            return True
+        elif choice.lower() == 'n':
+            return False
+        else:
+            print("Answer with a \'y\' or an \'n\'.\n\n")
+
+
 if __name__ == '__main__':
-    # print_options()
-    main()
+    change_precision(None)
     pass
