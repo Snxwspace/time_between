@@ -33,6 +33,10 @@ def main() -> None:
                 print("Invalid input: pick one of the list items.")
         except ValueError:
             print("Invalid input: type a whole number.")
+        
+        if choice == 4:
+            pass
+            # Handle the "do you want to calculate again?" asking and answering
     
     print("Thank you for using this program!")
 
