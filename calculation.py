@@ -49,7 +49,7 @@ def choose_new_datetime() -> datetime.datetime: # Break this into year, month, d
         while True:
             string = "What year is this in?\n"
             string += "Must be an integer between 0 and 9999 inclusive.\n"
-            string += "You can type 'cancel' to cancel the "
+            string += "You can('t) type 'cancel' to cancel the operation"
 
             print(string)
             choice = input("> ")
@@ -184,9 +184,20 @@ def choose_new_datetime() -> datetime.datetime: # Break this into year, month, d
             except ValueError:
                 print("Invalid input: type a whole number.")
 
+        # Make sure a valid hour, minute, and second is selected in 24-hour format
+            # Allow floats for the seconds category, truncate it to 6 digits for microseconds
+        while True:
+            string = "What time is it?\n"
+            string += "Use 24-hour format, with seconds optional.\n"
+            string += "Use colons (:) to split the hours, minutes, and seconds.\n"
+            string += "You can use a decimal to represent up to microseconds.\n\n"
+            
+            print(string)
+            choice = input("> ")
 
-    # Make sure a valid hour, minute, and second is selected in 24-hour format
-        # Allow floats for the seconds category, truncate it to 6 digits for microseconds
+            time_list = choice.split(":")
+            # Check hour
+
 
 if __name__ == '__main__':
     change_datetime(datetime.datetime(2024, 4, 16))
