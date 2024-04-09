@@ -172,7 +172,7 @@ def choose_new_datetime() -> datetime.datetime: # Break this into year, month, d
             choice = input("> ")
 
             try:
-                if int(choice) <= 9999 and int(choice) >= 0:
+                if int(choice) <= day_maximum and int(choice) > 0:
                     string = "The chosen day is " + choice + ".\n"
                     string += "Is this what you want? y/n\n"
                     confirm = main.ask_yes_or_no(string)
@@ -195,8 +195,45 @@ def choose_new_datetime() -> datetime.datetime: # Break this into year, month, d
             print(string)
             choice = input("> ")
 
-            time_list = choice.split(":")
+            time_list = choice.split(":") # Confirm with winikka that .split() won't error when the string is missing the splitter token
+            
+            # hour/minute proofchecking
+            try:
+                time_list[1]
+            except IndexError:
+                print("You need to put a \':\' token to seperate hours, minutes, and seconds.\n")
+                continue
+            
+            # seconds avaliable?
+            try:
+                time_list[2]
+                seconds = -1
+            except IndexError:
+                seconds = 0
+            
             # Check hour
+            try:
+                if int(time_list[0]) <= 24 and int(time_list[0]) >= 0:
+                    hours = time_list[0] % 24
+                else:
+                    print("There are only 24 hours a day.\n")
+                    continue
+            except ValueError:
+                print("The hours need to be an integer.\n")
+                continue
+            
+            # Check minutes
+            try:
+                if int(time_list[1]) < 60 and int(time_list[1]) >= 0:
+                    minutes = time_list[1]
+                else:
+                    print("There are only 60 minutes in an hour.\n")
+                    continue
+            except ValueError:
+                print("The minutes need to be an integer.\n")
+                continue
+            
+            # Check seconds and microseconds
 
 
 if __name__ == '__main__':
