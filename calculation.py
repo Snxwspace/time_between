@@ -16,34 +16,51 @@ DAYS_PER_MONTH = {
     "December": 31
 }
 
+MONTH_INDEX = {
+    "January": 1,
+    "Febuary": 2,
+    "March": 3,
+    "April": 4,
+    "May": 5,
+    "June": 6,
+    "July": 7,
+    "August": 8,
+    "September": 9,
+    "October": 10,
+    "November": 11,
+    "December": 12
+}
+
 def change_datetime(cur_datetime: datetime.datetime) -> datetime.datetime:
     # Choose between datetime of calculation, a specified datetime, or cancellation
-    string = "\nChoose one of the following options for choosing the new date and time.\n"
-    string += "Current date and time: "
-    if isinstance(cur_datetime, datetime.datetime):
-        string += cur_datetime.strftime("%b %d %Y, %I:%M:%S %p")
-    else:
-        string += cur_datetime
-    string += "\n\n"
-    string += "1. Choose a date and time\n"
-    string += "2. The current time\n"
-    string += "3. Cancel\n"
-    print(string)
-    choice = input("> ")
+    while True:
+        string = "\nChoose one of the following options for choosing the new date and time.\n"
+        string += "Current date and time: "
+        if isinstance(cur_datetime, datetime.datetime):
+            string += cur_datetime.strftime("%b %d %Y, %I:%M:%S %p")
+        else:
+            string += cur_datetime
+        string += "\n\n"
+        string += "1. Choose a date and time\n"
+        string += "2. The current time\n"
+        string += "3. Cancel\n"
+        print(string)
+        choice = input("> ")
 
-    try:
-        if int(choice) == 3:
-            return cur_datetime
-        elif int(choice) == 2:
-            return "now"
-        elif int(choice) == 1:
-            new = choose_new_datetime()
-            if new != None:
-                return new
-    except ValueError:
-        print("Please input an integer from the list.")
+        try:
+            if int(choice) == 3:
+                return cur_datetime
+            elif int(choice) == 2:
+                return "now"
+            elif int(choice) == 1:
+                new = choose_new_datetime()
+                if new != None:
+                    return new
+        except ValueError:
+            print("Please input an integer from the list.")
 
 def choose_new_datetime() -> datetime.datetime: # Break this into year, month, day, and hour/minute/second/microsecond functions
+                                                # PLEASE REFACTOR THIS IM BEGGING YOU ITS OVER 200 LINES LONG
     while True:
         # Make sure a proper year is selected
         while True:
@@ -85,7 +102,7 @@ def choose_new_datetime() -> datetime.datetime: # Break this into year, month, d
             string += "12. December\n"
 
             print(string)
-            input("> ")
+            choice = input("> ")
 
             try:
                 string = "Would you like to set the month to "
@@ -126,46 +143,48 @@ def choose_new_datetime() -> datetime.datetime: # Break this into year, month, d
                         break
                 elif int(choice) == 8:
                     month = "August"
-                    string = "Would you like to cancel this operation? y/n\n"
+                    string += f"\'{month}\'? y/n\n"
                     if main.ask_yes_or_no(string):
                         break
                 elif int(choice) == 9:
                     month = "September"
-                    string = "Would you like to cancel this operation? y/n\n"
+                    string += f"\'{month}\'? y/n\n"
                     if main.ask_yes_or_no(string):
                         break
                 elif int(choice) == 10:
                     month = "October"
-                    string = "Would you like to cancel this operation? y/n\n"
+                    string += f"\'{month}\'? y/n\n"
                     if main.ask_yes_or_no(string):
                         break
                 elif int(choice) == 11:
                     month = "November"
-                    string = "Would you like to cancel this operation? y/n\n"
+                    string += f"\'{month}\'? y/n\n"
                     if main.ask_yes_or_no(string):
                         break
                 elif int(choice) == 12:
                     month = "December"
-                    string = "Would you like to cancel this operation? y/n\n"
+                    string += f"\'{month}\'? y/n\n"
                     if main.ask_yes_or_no(string):
                         break
                 else:
-                    print("Invalid input: pick one of the list items.")
+                    print("Invalid input: pick one of the list items.\n")
             except ValueError:
-                print("Invalid input: type a whole number.")
+                print("Invalid input: type a whole number.\n")
 
         while True:
             # Make sure a valid day is selected
                 # MAKE SURE TO DO LEAP DAY HANDLING
-                # Leap days are when the year is evenly divisible by 4 and not by 100, or when evenly divisible by 400
+                # Leap days are when the year is evenly divisible by 4 and not by 100, 
+                #                                     or when evenly divisible by 400
             day_maximum = DAYS_PER_MONTH[month]
             
             # Leap day handling
-            if day_maximum == 28 and (year % 400 == 0 or (year % 4 == 0 and year % 100 != 0)):
+            year_int = int(year)
+            if day_maximum == 28 and (year_int % 400 == 0 or (year_int % 4 == 0 and year_int % 100 != 0)):
                 day_maximum = 29
             
             # Actual part of the function
-            string = "What day of the month is it?\n"
+            string = "\n\nWhat day of the month is it?\n"
             string += f"The month is {month}, which has {day_maximum} days.\n\n"
 
             print(string)
@@ -185,7 +204,7 @@ def choose_new_datetime() -> datetime.datetime: # Break this into year, month, d
                 print("Invalid input: type a whole number.")
 
         # Make sure a valid hour, minute, and second is selected in 24-hour format
-            # Allow floats for the seconds category, truncate it to 6 digits for microseconds
+            # Allow floats for the seconds category, round it to 6 digits for microseconds
         while True:
             string = "What time is it?\n"
             string += "Use 24-hour format, with seconds optional.\n"
@@ -210,11 +229,20 @@ def choose_new_datetime() -> datetime.datetime: # Break this into year, month, d
                 seconds = -1
             except IndexError:
                 seconds = 0
+                microseconds = 0
+
+            # 4 value proofchecking
+            try:
+                time_list[3]
+                print("Only two colons are allowed.")
+                continue
+            except IndexError:
+                pass
             
             # Check hour
             try:
                 if int(time_list[0]) <= 24 and int(time_list[0]) >= 0:
-                    hours = time_list[0] % 24
+                    hours = int(time_list[0]) % 24
                 else:
                     print("There are only 24 hours a day.\n")
                     continue
@@ -234,7 +262,44 @@ def choose_new_datetime() -> datetime.datetime: # Break this into year, month, d
                 continue
             
             # Check seconds and microseconds
+            if seconds == -1:
+                try:
+                    if float(time_list[2]) < 60 and float(time_list[2]) >= 0:
+                        seconds = round(float(time_list[2]), 6)
+                        seconds_string = str(seconds)
+                        seconds_string = seconds_string.split('.')
+                        seconds = seconds_string[0]
+                        if len(seconds_string) == 1:
+                            microseconds = 0
+                        elif len(seconds_string) > 2:
+                            print("you're not supposed to see this message")
+                            continue
+                        else:
+                            microseconds = seconds_string[1]
+                    else:
+                        print("There are only 60 seconds in a minute.")
+                        continue
+                except ValueError:
+                    print("The seconds need to be a number.")
+                    continue
+            
+            string = "Do you want to set the time to "
+            string += f"{hours}:{minutes}:{seconds}.{microseconds}? y/n\n"
+            choice = main.ask_yes_or_no(string)
+            if choice:
+                break
+            else:
+                continue
+        
+        chosen_datetime = datetime.datetime(int(year), MONTH_INDEX[month], int(day), int(hours), 
+                                            int(minutes), int(seconds), int(microseconds))
+        strf_datetime = chosen_datetime.strftime("%b %d %Y, %I:%M:%S %p")
+        string = f"The chosen time is {strf_datetime}.\n" # i dont think python likes this line of code for some reason
+        string += "Do you want to change the time to this? y/n"
+        choice = main.ask_yes_or_no(string)
 
+        if choice:
+            return chosen_datetime
 
 if __name__ == '__main__':
     change_datetime(datetime.datetime(2024, 4, 16))

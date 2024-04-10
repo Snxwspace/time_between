@@ -148,5 +148,6 @@ def ask_yes_or_no(question: str) -> bool:
 
 
 if __name__ == '__main__':
-    change_precision(None)
+    # change_precision(None)
+    # print(round(2763.123456789, 6))
     pass
