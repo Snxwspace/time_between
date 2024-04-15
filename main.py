@@ -13,8 +13,6 @@ def main() -> None:
         print_options(first_datetime, second_datetime, precision)
         choice = input("> ")
         try:
-            # ERROR: ValueError: "invalid literal for int() with base 10" 
-            # Happens with any float I type
             if int(choice) == 5:
                 pass
             elif int(choice) == 4:
@@ -148,6 +146,7 @@ def ask_yes_or_no(question: str) -> bool:
 
 
 if __name__ == '__main__':
+    main()
     # change_precision(None)
     # print(round(2763.123456789, 6))
     pass
