@@ -31,8 +31,6 @@ MONTH_INDEX = {
     "December": 12
 }
 
-PRECISION_ORDER = ["Years", "Months", "Days", "Hours", "Minutes", "Seconds", "Microseconds"]
-
 def change_datetime(cur_datetime: datetime.datetime) -> datetime.datetime:
     # Choose between datetime of calculation, a specified datetime, or cancellation
     while True:
@@ -322,5 +320,78 @@ def change_time() -> tuple[int]:
             continue
         
 
+def calculate_time_between(
+        datetime_start: datetime.datetime, 
+        datetime_end: datetime.datetime, 
+        precision: str
+        ) -> bool: # i dont feel like doing it the easy way
+    """
+    Calculates the difference between two different datetimes with a specified precision limit.
+    
+    Inputs:
+        datetime_start (datetime): The starting datetime for the calculation.
+        datetime_end (datetime): The ending datetime for the calculation.
+        precision (string): How precise the return needs to be.
+    
+    Outputs:
+        status (boolean): A boolean indicating whether it was successful or not.
+    """
+    
+    # Add every property to a list
+    start_list = [datetime_start.year, datetime_start.month, datetime_start.day, datetime_start.hour,
+                  datetime_start.minute, datetime_start.second, datetime_start.microsecond]
+    end_list = [datetime_end.year, datetime_end.month, datetime_end.day, datetime_end.hour,
+                  datetime_end.minute, datetime_end.second, datetime_end.microsecond]
+    
+    # compare the lists and add the comparisons to a new list
+    comparison_list = []
+    for i in range(len(start_list)):
+        if start_list[i] > end_list[i]:
+            comparison_list.append("+")
+        elif start_list[i] < end_list[i]:
+            comparison_list.append("-")
+        else:
+            comparison_list.append("=")
+
+    # Smaller datetime goes first! (Error protection)
+    negate_delta = False
+    if comparison_list.index("+") < comparison_list.index("-"):
+        negate_delta = True
+        temp = datetime_start
+        datetime_start = datetime_end
+        datetime_end = temp
+
+    # LONG SUBTRACTION -- MILLISECONDS
+    carry = False
+    delta_microseconds = datetime_end.microsecond - datetime_start.microsecond
+    if delta_microseconds != abs(delta_microseconds): # REPLACE WITH A sign() CALL
+        delta_microseconds + 1000000
+        carry = True
+    
+    delta_seconds = datetime_end.second - datetime_start.second
+    if carry:
+        delta_seconds -= 1
+        carry = False
+    if delta_seconds != abs(delta_seconds): # REPLACE WITH A sign() CALL
+        delta_seconds + 60
+        carry = True
+    
+    delta_minutes = datetime_end.minute - datetime_start.minute
+    if carry:
+        delta_minutes -= 1
+        carry = False
+    if delta_minutes != abs(delta_minutes): # REPLACE WITH A sign() CALL
+        delta_minutes + 60
+        carry = True
+    
+    delta_hours = datetime_end.hour - datetime_start.hour
+    if carry:
+        delta_hours -= 1
+        carry = False
+    if delta_hours != abs(delta_hours): # REPLACE WITH A sign() CALL
+        delta_hours + 24
+        carry = True
+
+
 if __name__ == '__main__':
-    change_datetime(datetime.datetime(2024, 4, 16))
+    calculate_time_between(datetime.datetime.now(), datetime.datetime(2024, 4, 16, 15, 30), "Minutes")

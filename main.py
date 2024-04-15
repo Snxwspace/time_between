@@ -33,7 +33,27 @@ def main() -> None:
             print("Invalid input: type a whole number.")
         
         if choice == 4:
-            pass
+            # Proofchecking all inputs
+            if isinstance(first_datetime, None):
+                print("You need to set the starting datetime.")
+                continue
+            if isinstance(second_datetime, None):
+                print("You need to set the ending datetime.")
+                continue
+            if isinstance(precision, None):
+                print("You need to set the maximum precision.")
+                continue
+            if first_datetime == second_datetime:
+                print("The starting and ending datetimes must be different.")
+                continue
+
+            if first_datetime == "now":
+                first_datetime = datetime.now()
+            elif second_datetime == "now":
+                second_datetime = datetime.now()
+                
+            status = calculation.calculate_time_between(first_datetime, second_datetime, precision)
+            
             # Handle the "do you want to calculate again?" asking and answering
     
     print("Thank you for using this program!")
@@ -46,7 +66,7 @@ def pre_run() -> None:
     print()
 
 
-def print_options(cur_first: datetime = None, cur_second: datetime = None, cur_precision: str = None) -> None:
+def print_options(cur_first: datetime = None, cur_second: datetime = None, cur_precision: str = None) -> None:  
     """Prints the options for controlling the program."""
     if isinstance(cur_first, datetime):
         format_first = cur_first.strftime("%b %d %Y, %I:%M:%S %p")
