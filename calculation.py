@@ -200,7 +200,7 @@ def change_day(year: int, month: str) -> int:
         day_maximum = DAYS_PER_MONTH[month]
         
         # Leap day handling
-        if day_maximum == 28 and (year % 400 == 0 or (year % 4 == 0 and year % 100 != 0)):
+        if month == "Febuary" and is_leapyear(year):
             day_maximum = 29
         
         # Actual part of the function
@@ -361,36 +361,79 @@ def calculate_time_between(
         datetime_start = datetime_end
         datetime_end = temp
 
-    # LONG SUBTRACTION -- MILLISECONDS
+    # LONG SUBTRACTION
     carry = False
-    delta_microseconds = datetime_end.microsecond - datetime_start.microsecond
-    if delta_microseconds != abs(delta_microseconds): # REPLACE WITH A sign() CALL
-        delta_microseconds + 1000000
+    delta_useconds = datetime_end.microsecond - datetime_start.microsecond
+    # uSeconds are microseconds
+    if delta_useconds != abs(delta_useconds): 
+        delta_useconds += 1000000
         carry = True
     
     delta_seconds = datetime_end.second - datetime_start.second
     if carry:
         delta_seconds -= 1
         carry = False
-    if delta_seconds != abs(delta_seconds): # REPLACE WITH A sign() CALL
-        delta_seconds + 60
+    if delta_seconds != abs(delta_seconds): 
+        delta_seconds += 60
         carry = True
     
     delta_minutes = datetime_end.minute - datetime_start.minute
     if carry:
         delta_minutes -= 1
         carry = False
-    if delta_minutes != abs(delta_minutes): # REPLACE WITH A sign() CALL
-        delta_minutes + 60
+    if delta_minutes != abs(delta_minutes):
+        delta_minutes += 60
         carry = True
     
     delta_hours = datetime_end.hour - datetime_start.hour
     if carry:
         delta_hours -= 1
         carry = False
-    if delta_hours != abs(delta_hours): # REPLACE WITH A sign() CALL
-        delta_hours + 24
+    if delta_hours != abs(delta_hours):
+        delta_hours += 24
         carry = True
+
+    delta_days = datetime_end.day - datetime_start.day
+    if carry:
+        delta_days -= 1
+        carry = False
+    if delta_days != abs(delta_days):
+        days_add = DAYS_PER_MONTH[datetime_end.strftime("%B")]
+        # Check for leap year
+        if datetime_end.month == 2:
+            if is_leapyear(datetime_end.year):
+                days_add += 1
+        delta_days += days_add
+        carry = True
+        
+    
+    delta_months = datetime_end.month - datetime_start.month
+    if carry:
+        delta_months -= 1
+        carry = False
+    if delta_months != abs(delta_months):
+        delta_months += 12
+        carry = True
+    
+    delta_years = datetime_end.year - datetime_start.year
+    if carry:
+        delta_years -= 1
+        carry = False
+    # No need to check for negative years, I covered that already
+        
+    # RESULTS FORMATTING
+    pass #lol
+    
+
+def is_leapyear(year: int) -> bool:
+    if year % 4 == 0:
+        if year % 100 == 0:
+            if year % 400 == 0:
+                return True
+            return False
+        return True
+    return False
+
 
 
 if __name__ == '__main__':
