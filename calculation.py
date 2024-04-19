@@ -59,6 +59,7 @@ def change_datetime(cur_datetime: datetime.datetime) -> datetime.datetime:
         except ValueError:
             print("Please input an integer from the list.")
 
+
 def choose_new_datetime() -> datetime.datetime:
     while True:
         year = change_year()
@@ -420,9 +421,25 @@ def calculate_time_between(
         delta_years -= 1
         carry = False
     # No need to check for negative years, I covered that already
+    
+    if negate_delta:
+        # format the years to display negative
+        delta_years *= -1
+        # format datetime variables in reverse to make up for the inversion I did
+        datetime_start_str = datetime_end.strftime("%A, %B %d, %Y at %I:%M:%S.%f %p")
+        datetime_end_str = datetime_start.strftime("%A, %B %d, %Y at %I:%M:%S.%f %p")
+    else:
+        datetime_start_str = datetime_start.strftime("%A, %B %d, %Y at %I:%M:%S.%f %p")
+        datetime_end_str = datetime_end.strftime("%A, %B %d, %Y at %I:%M:%S.%f %p")
         
     # RESULTS FORMATTING
-    pass #lol
+    # string = "The time between "
+    # string += f"{datetime_start_str} and {datetime_end_str} is "
+    # if precision != "Years":
+    #     string += f"{delta_years} years, "
+    # else:
+    #     string += f"{delta_years} years."
+    # string += f"{delta_months} months, "
     
 
 def is_leapyear(year: int) -> bool:

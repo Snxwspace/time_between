@@ -91,7 +91,8 @@ def print_options(cur_first: datetime = None, cur_second: datetime = None, cur_p
 
 def change_precision(old_precision: str) -> str:
     while True:
-        string = "\nprecision.selector.dialogue\n"
+        string = "\nHow precise do you want the result to be?\n"
+        string += "Note that the more precise you choose, the more space the output takes up.\n"
         string += "Type the number of the option that you would like to select.\n\n"
         string += "1. Years\n"
         string += "2. Months\n"
