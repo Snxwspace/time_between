@@ -14,13 +14,40 @@ def main() -> None:
         choice = input("> ")
         try:
             if int(choice) == 5:
-                pass
+                break
             elif int(choice) == 4:
-                # Run all inputs by a function to check for valid inputs
-                # Calculate everything
-                # Print the results
-                # Ask if they want to calculate another thing
-                pass    
+                # Proofchecking all inputs
+                if first_datetime == None:
+                    print("You need to set the starting datetime.")
+                    continue
+                if second_datetime == None:
+                    print("You need to set the ending datetime.")
+                    continue
+                if precision == None:
+                    print("You need to set the precision.")
+                    continue
+                if first_datetime == second_datetime:
+                    print("The starting and ending datetimes must be different.")
+                    continue
+                
+                # Make sure all of the "now"s are properly handled
+                if first_datetime == "now":
+                    first_datetime = datetime.now()
+                elif second_datetime == "now":
+                    second_datetime = datetime.now()
+                
+                calculation.calculate_time_between(first_datetime, second_datetime, precision)
+
+                # Ask if they want to continue
+                cont = ask_yes_or_no("Would you like to calculate another date?")
+
+                if cont:
+                    first_datetime = None
+                    second_datetime = None
+                    precision = None
+                    continue
+                else:
+                    break
             elif int(choice) == 3:
                 precision = change_precision(precision)
             elif int(choice) == 2:
@@ -31,31 +58,6 @@ def main() -> None:
                 print("Invalid input: pick one of the list items.")
         except ValueError:
             print("Invalid input: type a whole number.")
-        
-        if choice == 4:
-            # Proofchecking all inputs
-            if isinstance(first_datetime, None):
-                print("You need to set the starting datetime.")
-                continue
-            if isinstance(second_datetime, None):
-                print("You need to set the ending datetime.")
-                continue
-            if isinstance(precision, None):
-                print("You need to set the maximum precision.")
-                continue
-            if first_datetime == second_datetime:
-                print("The starting and ending datetimes must be different.")
-                continue
-
-            if first_datetime == "now":
-                first_datetime = datetime.now()
-            elif second_datetime == "now":
-                second_datetime = datetime.now()
-                
-            status = calculation.calculate_time_between(first_datetime, second_datetime, precision)
-            
-            # Handle the "do you want to calculate again?" asking and answering
-    
     print("Thank you for using this program!")
 
 
@@ -119,10 +121,8 @@ def change_precision(old_precision: str) -> str:
                 if ask_yes_or_no(string):
                     return new_precision
             elif int(choice) == 3:
-                new_precision = "weeks"
-                string += f"\'{new_precision}\'? y/n\n"
-                if ask_yes_or_no(string):
-                    return new_precision
+                print("I'm sorry, we don't quite support a weeks-based precision. Maybe soon!")
+                print("Choose again.\n")
             elif int(choice) == 4:
                 new_precision = "days"
                 string += f"\'{new_precision}\'? y/n\n"

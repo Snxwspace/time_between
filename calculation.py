@@ -84,7 +84,7 @@ def change_year() -> int:
     while True:
         string = "What year is this in?\n"
         string += "Must be an integer between 0 and 9999 inclusive.\n"
-        string += "You can('t) type 'cancel' to cancel the operation"
+        # string += "You can('t) type 'cancel' to cancel the operation"
 
         print(string)
         choice = input("> ")
@@ -325,7 +325,7 @@ def calculate_time_between(
         datetime_start: datetime.datetime, 
         datetime_end: datetime.datetime, 
         precision: str
-        ) -> bool: # i dont feel like doing it the easy way
+        ): # i dont feel like doing it the easy way
     """
     Calculates the difference between two different datetimes with a specified precision limit.
     
@@ -333,9 +333,6 @@ def calculate_time_between(
         datetime_start (datetime): The starting datetime for the calculation.
         datetime_end (datetime): The ending datetime for the calculation.
         precision (string): How precise the return needs to be.
-    
-    Outputs:
-        status (boolean): A boolean indicating whether it was successful or not.
     """
     
     # Add every property to a list
@@ -431,15 +428,68 @@ def calculate_time_between(
     else:
         datetime_start_str = datetime_start.strftime("%A, %B %d, %Y at %I:%M:%S.%f %p")
         datetime_end_str = datetime_end.strftime("%A, %B %d, %Y at %I:%M:%S.%f %p")
-        
-    # RESULTS FORMATTING
-    # string = "The time between "
-    # string += f"{datetime_start_str} and {datetime_end_str} is "
-    # if precision != "Years":
-    #     string += f"{delta_years} years, "
-    # else:
-    #     string += f"{delta_years} years."
-    # string += f"{delta_months} months, "
+    
+    print(results_formatting(datetime_start_str, datetime_end_str, precision, delta_years, delta_months,
+                             delta_days, delta_hours, delta_minutes, delta_seconds, delta_useconds))
+
+
+def results_formatting(
+        datetime_start: str,
+        datetime_end: str,
+        precision: str,
+
+        delta_years: int,
+        delta_months: int,
+        delta_days: int,
+        delta_hours: int,
+        delta_minutes: int,
+        delta_seconds: int,
+        delta_useconds: int
+        ) -> str:
+    string = "The time between "
+    string += f"{datetime_start} and {datetime_end} is "
+    if precision != "years":
+        string += f"{delta_years} years, "
+    else:
+        string += f"{delta_years} years."
+        return string
+    
+    if precision != "months":
+        string += f"{delta_months} months, "
+    else:
+        string += f"and {delta_months} months."
+        return string
+    
+    if precision != "days":
+        string += f"{delta_days} days, "
+    else: 
+        string += f"and {delta_days} days."
+        return string
+    
+    if precision != "hours":
+        string += f"{delta_hours} hours, "
+    else:
+        string += f"and {delta_hours} hours."
+        return string
+    
+    if precision != "minutes":
+        string += f"{delta_minutes} minutes, "
+    else:
+        string += f"and {delta_minutes} minutes."
+        return string
+    
+    if precision != "seconds":
+        string += f"{delta_seconds} seconds, "
+    else:
+        string += f"and {delta_seconds} seconds."
+        return string
+    
+    if precision != "microseconds":
+        # Not supposed to happen, indicates problem with code
+        raise ValueError("Precision not in valid set.")
+    else:
+        string += f"and {delta_useconds} microseconds."
+        return string
     
 
 def is_leapyear(year: int) -> bool:
@@ -454,4 +504,4 @@ def is_leapyear(year: int) -> bool:
 
 
 if __name__ == '__main__':
-    calculate_time_between(datetime.datetime.now(), datetime.datetime(2024, 4, 16, 15, 30), "Minutes")
+    calculate_time_between(datetime.datetime.now(), datetime.datetime(2024, 4, 16, 15, 30), "minutes")
