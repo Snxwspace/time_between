@@ -1,11 +1,11 @@
 import calculation
 from datetime import datetime
 
-def main() -> None:
+def main(first_datetime_override: datetime = None, second_datetime_override: datetime = None, precision_override: str = None) -> None:
     # Setting things up
-    first_datetime = None
-    second_datetime = None
-    precision = None
+    first_datetime = first_datetime_override
+    second_datetime = second_datetime_override
+    precision = precision_override
     pre_run()
 
     # Main loop 
@@ -39,7 +39,7 @@ def main() -> None:
                 calculation.calculate_time_between(first_datetime, second_datetime, precision)
 
                 # Ask if they want to continue
-                cont = ask_yes_or_no("Would you like to calculate another date?")
+                cont = ask_yes_or_no("Would you like to calculate another date? y/n")
 
                 if cont:
                     first_datetime = None

@@ -84,7 +84,7 @@ def change_year() -> int:
     while True:
         string = "What year is this in?\n"
         string += "Must be an integer between 0 and 9999 inclusive.\n"
-        # string += "You can('t) type 'cancel' to cancel the operation"
+        # string += "You can('t) type 'cancel' to cancel the operation" 
 
         print(string)
         choice = input("> ")
@@ -353,6 +353,8 @@ def calculate_time_between(
 
     # Smaller datetime goes first! (Error protection)
     negate_delta = False
+    if comparison_list.count("+") == 0:
+        comparison_list.append("+") # hopefully doesnt cause problems
     if comparison_list.index("+") < comparison_list.index("-"):
         negate_delta = True
         temp = datetime_start
@@ -420,8 +422,21 @@ def calculate_time_between(
     # No need to check for negative years, I covered that already
     
     if negate_delta:
-        # format the years to display negative
-        delta_years *= -1
+        # format the first positive number to display negative
+        if delta_years != 0:
+            delta_years *= -1
+        elif delta_months != 0:
+            delta_months *= -1
+        elif delta_days != 0:
+            delta_days *= -1
+        elif delta_hours != 0:
+            delta_hours *= -1
+        elif delta_minutes != 0:
+            delta_minutes *= -1
+        elif delta_seconds != 0:
+            delta_seconds *= -1
+        elif delta_useconds != 0:
+            delta_useconds *= -1
         # format datetime variables in reverse to make up for the inversion I did
         datetime_start_str = datetime_end.strftime("%A, %B %d, %Y at %I:%M:%S.%f %p")
         datetime_end_str = datetime_start.strftime("%A, %B %d, %Y at %I:%M:%S.%f %p")
@@ -505,3 +520,5 @@ def is_leapyear(year: int) -> bool:
 
 if __name__ == '__main__':
     calculate_time_between(datetime.datetime.now(), datetime.datetime(2024, 4, 16, 15, 30), "minutes")
+    calculate_time_between(datetime.datetime.now(), datetime.datetime(2024, 6, 13, 12, 30), "minutes")
+    calculate_time_between(datetime.datetime.now(), datetime.datetime(2025, 6, 5, 15, 30), "minutes")
