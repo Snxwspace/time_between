@@ -2,6 +2,14 @@ import calculation
 from datetime import datetime
 
 def main(first_datetime_override: datetime = None, second_datetime_override: datetime = None, precision_override: str = None) -> None:
+    """
+    The main function for calculating time between two arbitrary dates.
+    
+    The override inputs override the initial settings for each of their categories.
+    If you know how to use Python, you can set it up to calculate it without the need for the prompts.
+
+    Returns nothing, but prints the result of the calculation once you confirm it.
+    """
     # Setting things up
     first_datetime = first_datetime_override
     second_datetime = second_datetime_override
@@ -69,7 +77,7 @@ def pre_run() -> None:
 
 
 def print_options(cur_first: datetime = None, cur_second: datetime = None, cur_precision: str = None) -> None:  
-    """Prints the options for controlling the program."""
+    """Prints the options for controlling the first prompt of the program."""
     if isinstance(cur_first, datetime):
         format_first = cur_first.strftime("%b %d %Y, %I:%M:%S %p")
     else:
@@ -92,6 +100,7 @@ def print_options(cur_first: datetime = None, cur_second: datetime = None, cur_p
 
 
 def change_precision(old_precision: str) -> str:
+    """Controls changing the precision, taking in the old precision and returning a new one."""
     while True:
         string = "\nHow precise do you want the result to be?\n"
         string += "Note that the more precise you choose, the more space the output takes up.\n"
@@ -155,6 +164,7 @@ def change_precision(old_precision: str) -> str:
 
 
 def ask_yes_or_no(question: str) -> bool:
+    """Asks a yes or no *question*, and returns a True/False boolean with the choice."""
     while True:
         print(question)
         choice = input("> ")

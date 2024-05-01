@@ -32,6 +32,7 @@ MONTH_INDEX = {
 }
 
 def change_datetime(cur_datetime: datetime.datetime) -> datetime.datetime:
+    """Controls the first prompt for changing one of the datetimes. Takes in the original datetime and returns the new datetime."""
     # Choose between datetime of calculation, a specified datetime, or cancellation
     while True:
         string = "\nChoose one of the following options for choosing the new date and time.\n"
@@ -61,6 +62,7 @@ def change_datetime(cur_datetime: datetime.datetime) -> datetime.datetime:
 
 
 def choose_new_datetime() -> datetime.datetime:
+    """Creates a new datetime to replace an existing choice."""
     while True:
         year = change_year()
         month = change_month()
@@ -80,6 +82,7 @@ def choose_new_datetime() -> datetime.datetime:
 
 
 def change_year() -> int:
+    """Chooses a year for a datetime, returns as an integer."""
     # Make sure a proper year is selected
     while True:
         string = "What year is this in?\n"
@@ -104,6 +107,7 @@ def change_year() -> int:
 
 
 def change_month() -> str:
+    """Chooses a month for a datetime, returns as a string of the month, capitalized."""
     # Give a 1-12 list of months that can be selected
     while True:
         string = "What month of the year is this?\n"
@@ -193,6 +197,16 @@ def change_month() -> str:
 
 
 def change_day(year: int, month: str) -> int:
+    """
+    Chooses a day for a datetime.
+
+    Inputs:
+    year: Chosen year, for determining leap years.
+    month: Chosen month, for determining the number of days avaliable
+
+    Outputs:
+    day: Integer for the day of the month chosen.
+    """
     while True:
         # Make sure a valid day is selected
             # MAKE SURE TO DO LEAP DAY HANDLING
@@ -226,6 +240,7 @@ def change_day(year: int, month: str) -> int:
 
 
 def change_time() -> tuple[int]:
+    """Chooses a time for a datetime, returns as a tuple of integers."""
     # Make sure a valid hour, minute, and second is selected in 24-hour format
         # Allow floats for the seconds category, round it to 6 digits for microseconds
     while True:
@@ -461,6 +476,19 @@ def results_formatting(
         delta_seconds: int,
         delta_useconds: int
         ) -> str:
+    """
+    Formats the calculation results for printing.
+    
+    Inputs:
+        datetime_start: A string that represents the first datetime used.
+        datetime_end: A string that represents the second datetime used.
+        precision: A string representing the maximum precision for the results.
+            Can only be years, months, days, hours, minutes, seconds, or microseconds, case sensitive.
+        delta_xxxx: An integer representing the difference in the datetimes for the specified time unit.
+
+    Output:
+        A print-ready string containing the results in a tidy format.
+    """
     string = "The time between "
     string += f"{datetime_start} and {datetime_end} is "
     if precision != "years":
@@ -508,6 +536,7 @@ def results_formatting(
     
 
 def is_leapyear(year: int) -> bool:
+    """Calculates whether it's a leapyear. Returns True if it is, and returns False if it isnt."""
     if year % 4 == 0:
         if year % 100 == 0:
             if year % 400 == 0:
